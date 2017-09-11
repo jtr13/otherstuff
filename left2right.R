@@ -1,6 +1,6 @@
 #' Evaluate expressions left to right
 #'
-#' It's very primitive:
+#' It's very rudimentary:
 #'  - can't handle negative numbers
 #'  - no error checking
 #'
