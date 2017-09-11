@@ -9,6 +9,8 @@
 #' @examples
 #' e("3/4+.25*3")
 #' e("1+2*3/4")
+#'
+#' "6/6+1*4+2" %>% e    # no parens at all
 
 nextcalc <- function(oldanswer, nextop, nextnum) {
   switch(nextop,
