@@ -1,3 +1,15 @@
+#' Evaluate expressions left to right
+#'
+#' It's very primitive:
+#'  - can't handle negative numbers
+#'  - no error checking
+#'
+#' @param s A string containing numbers and operations (+, -, *, /, ^)
+#'
+#' @examples
+#' e("3/4+.25*3")
+#' e("1+2*3/4")
+
 nextcalc <- function(oldanswer, nextop, nextnum) {
   switch(nextop,
          "*" = newanswer <- oldanswer * nextnum,
@@ -16,7 +28,7 @@ s <- gsub(" ", "", s)
 numbers <- as.numeric(strsplit(s, "\\+|-|\\*|/|\\^")[[1]])
 
 # get operations
-ops <- strsplit(s, "[0-9]+")[[1]]
+ops <- strsplit(s, "[0-9]*\\.?[0-9]+")[[1]]
 
 # start with the first number
 answer <- numbers[1]
