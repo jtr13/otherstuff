@@ -10,7 +10,7 @@ bnplot <- function(n, p, x = NULL, curve = TRUE,
   g <- ggplot() +
     geom_col(data = df, aes(x, ybn),
              color = "grey50", fill = "lightblue") +
-    scale_x_continuous(breaks = 0:n, limits = c(0, n)) +
+    scale_x_continuous(breaks = 0:n) +
     scale_y_continuous(expand = expand_scale(c(0, .05))) +
     ylab("density") +
     theme_grey(14) +
@@ -19,7 +19,7 @@ bnplot <- function(n, p, x = NULL, curve = TRUE,
           panel.grid.major.y = element_blank(),
           panel.grid.minor.y = element_blank())
   if (curve) {
-    xn <- seq(0, n, .1)
+    xn <- seq(-1, n + 1, .05)
     yn <- dnorm(xn, mean = n*p, sd = sqrt(n*p*(1-p)))
     df2 <- data.frame(xn, yn)
     g <- g + geom_line(data = df2, aes(xn, yn))
