@@ -1,11 +1,6 @@
 # plot of normal approximation of binomial
-bnplot <- function(n, p, x = NULL, curve = TRUE,
-                   shade = TRUE, contcorr = TRUE) {
-  if (!curve){
-    shade <- FALSE
-    contcorr <- FALSE
-  }
-  if (!shade) contcorr <- FALSE
+bnplot <- function(n, p, x = NULL, a = 0, curve = TRUE,
+                   shade = FALSE, contcorr = FALSE) {
   df <- data.frame(x = 0:n, ybn = dbinom(0:n, n, p))
   g <- ggplot() +
     geom_col(data = df, aes(x, ybn),
@@ -26,16 +21,20 @@ bnplot <- function(n, p, x = NULL, curve = TRUE,
     }
   if (shade) {
       if (is.null(x)) x <- n
-      df3 <- df2 %>% filter (xn <= x)
+      df3 <- df2 %>% filter (xn <= x & xn >= a)
       g <- g + geom_area(data = df3, aes(x = xn, y = yn),
                          fill = "yellow", alpha = .5)
   }
   if (contcorr) {
     if (is.null(x)) x <- n
-    df4 <- df2 %>% filter (xn >= x & xn <= x + .5)
+    df4 <- df2 %>% filter (xn >= x & xn <= x + .45)
+    df5 <- df2 %>% filter (xn >= a - .45 & xn <= a)
     g <- g + geom_area(data = df4,
-      aes(x = xn, y = yn), color = "black",
-      fill = "yellow", alpha = .8)
+        aes(x = xn, y = yn), color = "black",
+        fill = "yellow", alpha = .8) +
+      geom_area(data = df5,
+        aes(x = xn, y = yn), color = "black",
+        fill = "yellow", alpha = .8)
   }
   g
 }
