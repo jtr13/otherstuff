@@ -1,3 +1,4 @@
+library(dplyr)
 countpoints <- function(filename = "Stat1201Test2Sample.Rmd") {
   x <- readLines(filename)
   y <- grep("[1-9] points", x, value = TRUE)
