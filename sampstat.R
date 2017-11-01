@@ -1,5 +1,5 @@
 sampstat <- function(x) {
-  round(c(min = min(x),
+  round(data.frame(min = min(x),
     Q1 = quantile(x)[2][[1]],
     median = median(x),
     Q3 = quantile(x)[4][[1]],
