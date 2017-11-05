@@ -4,6 +4,7 @@ sampstat <- function(x) {
     median = median(x),
     Q3 = quantile(x)[4][[1]],
     max = max(x),
+    mean = mean(x),
     n = round(length(x),0),
     s = sd(x),
     se = sd(x)/sqrt(length(x))), 2)

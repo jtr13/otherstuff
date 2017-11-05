@@ -1,0 +1,19 @@
+---
+title: "Untitled"
+author: "Joyce Robbins"
+date: "11/1/2017"
+output: html_document
+---
+
+```{r, echo = FALSE, results = 'asis'}
+zalpha <- round(qnorm(.95), 2)
+zbeta <- round(qnorm(1 - .2), 2)
+mu0 <- 2
+muprime <- 2.09
+sigma <- .25
+cat("$n = \\left[\\frac{\\sigma(z_\\alpha + z_\\beta)}{\\mu_0-\\mu'}\\right]^2=$")
+cat("$\\left[\\frac{\\", sigma, "(", zalpha, " + ",
+zbeta, ")}{", mu0, " - ", muprime, "}\\right]^2$=")
+n <- round(((sigma*(zalpha + zbeta))/(mu0-muprime))^2, 2)
+cat(n)
+```
