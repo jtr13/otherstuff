@@ -8,4 +8,5 @@ test_rows <- 8
 exams_per_row <- ceiling(nrow(df)/test_rows)
 
 df$row <- sample(rep(1:test_rows, exams_per_row), nrow(df))
+print("Seating Chart")
 knitr::kable(df)
