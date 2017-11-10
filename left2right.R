@@ -40,6 +40,5 @@ answer <- numbers[1]
 for (i in 2:length(numbers)) {
   answer <- nextcalc(answer, ops[i], numbers[i])
 }
-
 answer
 }
