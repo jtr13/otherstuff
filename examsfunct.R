@@ -1,5 +1,5 @@
 # useful functions for exams package
-# round away from zero
+# round 5 away from zero
 r <- function(x, digits = 2) {
   if (x > 0) {
     round(x+(.1^(digits+1)),digits)
@@ -9,15 +9,15 @@ r <- function(x, digits = 2) {
 }
 
 # round to zero
+# .546 --> .54
+# -.546 --> -.54
 r2z <- function(x, digits = 2) {
   if (x > 0) {
-    round(x-(.1^(digits+1)),digits)
+    floor(x*10^digits)/10^digits
   } else {
-    round(x+(.1^(digits+1)),digits)
+    ceiling(x*10^digits)/10^digits
   }
 }
-
-
 
 # two decimal places for currency
 f <- function(x) {
