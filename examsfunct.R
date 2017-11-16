@@ -1,8 +1,24 @@
 # useful functions for exams package
-# rounding
+# round away from zero
 r <- function(x, digits = 2) {
-  round(x+(.1^(digits+1)),digits)
+  if (x > 0) {
+    round(x+(.1^(digits+1)),digits)
+    } else {
+    round(x-(.1^(digits+1)),digits)
+  }
 }
+
+# round to zero
+r2z <- function(x, digits = 2) {
+  if (x > 0) {
+    round(x-(.1^(digits+1)),digits)
+  } else {
+    round(x+(.1^(digits+1)),digits)
+  }
+}
+
+
+
 # two decimal places for currency
 f <- function(x) {
   format(x, nsmall = 2)
