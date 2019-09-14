@@ -10,29 +10,15 @@ get_type_count <- function(dataset, datatype) {
   num_cols
 }
 
-get_nrow <- function(name) {
-  nrow <- ifelse(sum(c("data.frame", "matrix") %in% class(get(name))) > 0,
-                 dim(get(name))[[1]], NA)
-}
-
-get_ncol <- function(name) {
-  nrow <- ifelse(sum(c("data.frame", "matrix") %in% class(get(name))) > 0,
-                 dim(get(name))[[2]], NA)
-}
-
 get_dataset_dims <- function(packagename = NULL) {
   datasetnames <- data(package = packagename)$results[,3]
-
+  data(list = datasetnames, package = packagename)
   datasetpackages <- data(package = packagename)$results[,1]
 
   if (!is.null(packagename)) library(packagename, character.only = TRUE)
 
   # get rid of everything after space in dataset name
   datasetnames <- unlist(purrr::map(strsplit(datasetnames, " "), ~.x[[1]]))
-
-#  nrow <- unlist(purrr::map(datasetnames, get_nrow))
-
-#  ncol <- unlist(purrr::map(datasetnames, get_ncol))
 
   dim <- purrr::map_chr(datasetnames,
                         ~ifelse(length(dim(get(.x))) > 0,
