@@ -15,8 +15,6 @@ get_dataset_dims <- function(packagename = NULL) {
   data(list = datasetnames, package = packagename)
   datasetpackages <- data(package = packagename)$results[,1]
 
-#  if (!is.null(packagename)) library(packagename, character.only = TRUE)
-
   # get rid of everything after space in dataset name
   datasetnames <- unlist(purrr::map(strsplit(datasetnames, " "), ~.x[[1]]))
 
