@@ -1,8 +1,13 @@
 # Merges grades from ZipGrade into a .csv that can be uploaded to CourseWorks
 
-cwfile <- "~/Downloads/2019-05-17T1440_Grades-STATGR5293_002_2019_1_-_TOPICS_IN_MODERN_STATISTICS.csv"
+cwfile <- "~/Downloads/2019-10-30T2203_Grades-STATW5702_001_2019_3_-_EXPLORATORY_DATA_ANALYSIS_VISUAL.csv"
 
-zipfile <- "~/Downloads/quiz-Test2-standard20180510.csv"
+studentsA <- read_csv("quiz-MidtermAFall2019-standard20180510.csv")
+studentsB <- read_csv("quiz-MidtermBFall2019-standard20180510.csv")
+
+write_csv(rbind(studentsA, studentsB), "students.csv")
+
+zipfile <- "students.csv"
 
 library(tidyverse)
 # downloaded from courseworks
@@ -14,13 +19,13 @@ CW <- read_csv(cwfile) %>%
 Zip <- read_csv(zipfile) %>%
   rename(`SIS User ID` = `External Id`) %>%
   select(`SIS User ID`, `Num Correct`) %>% # ***
-  mutate(`Test 2` = `Num Correct` + 10) %>% # ***
+  mutate(`Midterm` = `Num Correct` + 1) %>% # ***
   filter(!is.na(`SIS User ID`)) %>%
   select(-`Num Correct`)
 
 # change test column
-grades <-  CW %>% select(Student, ID, `SIS User ID`, `SIS Login ID`, Section) %>%
+ grades <-  CW %>% select(Student, ID, `SIS User ID`, `SIS Login ID`, Section) %>%
   full_join(Zip)
 
 # change file name
-write_csv(grades, "~/Downloads/Test2grades2import.csv")
+write_csv(grades, "~/Downloads/Midtermgrades2import.csv")

@@ -12,11 +12,19 @@ get_type_count <- function(dataset, datatype) {
 
 get_dataset_dims <- function(packagename = NULL) {
   datasetnames <- data(package = packagename)$results[,3]
-  data(list = datasetnames, package = packagename)
   datasetpackages <- data(package = packagename)$results[,1]
+
+  if (!is.null(packagename)) library(packagename, character.only = TRUE)
+
+  # load data from packages if not lazy load
+
+  if (!exists(datasetnames[1])) data(list = datasetnames, package = packagename)
 
   # get rid of everything after space in dataset name
   datasetnames <- unlist(purrr::map(strsplit(datasetnames, " "), ~.x[[1]]))
+
+
+
 
   dim <- purrr::map_chr(datasetnames,
                         ~ifelse(length(dim(get(.x))) > 0,
@@ -35,17 +43,20 @@ get_dataset_dims <- function(packagename = NULL) {
   allclasses <- tibble::enframe(purrr::map(datasetnames, ~class(get(.x))),
                                 name = NULL, value = "allclasses")
 
-  numeric_cols <- unlist(purrr::map2(datasetnames, "numeric", get_type_count))
-  integer_cols <- unlist(purrr::map2(datasetnames, "integer", get_type_count))
-  factor_cols <- unlist(purrr::map2(datasetnames, "factor", get_type_count))
-  character_cols <- unlist(purrr::map2(datasetnames, "character", get_type_count))
-  date_cols <- unlist(purrr::map2(datasetnames, "Date", get_type_count))
+  n_cols <- unlist(purrr::map2(datasetnames, "numeric", get_type_count))
+  i_cols <- unlist(purrr::map2(datasetnames, "integer", get_type_count))
+  f_cols <- unlist(purrr::map2(datasetnames, "factor", get_type_count))
+  c_cols <- unlist(purrr::map2(datasetnames, "character", get_type_count))
+  d_cols <- unlist(purrr::map2(datasetnames, "Date", get_type_count))
 
-  other_cols <- ncol - (numeric_cols + integer_cols + factor_cols +
-                          character_cols + date_cols)
+  other_cols <- ncol - (n_cols + i_cols + f_cols + c_cols + d_cols)
+
+  # this needs work
+  cnames <- unlist(purrr::map(datasetnames, ~paste(colnames(data.frame(get(.x))), collapse = " ")))
 
   cbind(data.frame(package = datasetpackages, name = datasetnames, dim,
-                   length, first_class_listed, numeric_cols, integer_cols, factor_cols,
-                   character_cols, date_cols, other_cols), allclasses)
+                   length, first_class_listed, n_cols, i_cols, f_cols,
+                   c_cols, d_cols, other_cols), allclasses, cnames)
+
 }
 
