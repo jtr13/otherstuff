@@ -1,5 +1,7 @@
 # Merges grades from ZipGrade into a .csv that can be uploaded to CourseWorks
 
+library(tidyverse)
+
 cwfile <- "~/Downloads/2019-10-30T2203_Grades-STATW5702_001_2019_3_-_EXPLORATORY_DATA_ANALYSIS_VISUAL.csv"
 
 studentsA <- read_csv("quiz-MidtermAFall2019-standard20180510.csv")
@@ -9,7 +11,6 @@ write_csv(rbind(studentsA, studentsB), "students.csv")
 
 zipfile <- "students.csv"
 
-library(tidyverse)
 # downloaded from courseworks
 
 CW <- read_csv(cwfile) %>%
