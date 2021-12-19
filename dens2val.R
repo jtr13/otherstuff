@@ -6,6 +6,6 @@ dens2val <- function(data) {
   data$z <- as.numeric(factor(df$z))
   data$y <- data$y * 1000
   df <- do.call(rbind, apply(data, 1, makemore))
-  df$group <- letters[df$z]
+  df$group <- LETTERS[df$z]
   df[,c("x", "group")]
 }
