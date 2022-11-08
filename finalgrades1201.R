@@ -1,6 +1,31 @@
 # Calculates final grades
 # Can't do it in CourseWorks until grades are released
 # Also serves as a check on CW
+#
+#
+# Fall 2021
+
+library(tidyverse)
+CW <- read_csv("~/Downloads/CW1201.csv") |>
+  select(Student, ID, `SIS User ID`, `SIS Login ID`, Section)
+
+Drive <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1XpcPvhDz1HgeHZQ_PP2unE9fyJXsR0snN61_uERnd-k/edit#gid=0") |>
+  select(Student, ID, `SIS User ID`, `Test 1 (727702)`, `Test 2`, `Final`)
+
+grades <- full_join(CW, Drive)
+
+grades |>
+  write_csv("~/Downloads/gradestoimport1201.csv")
+
+
+missing <- function(test, final, test_value = .2, final_value = .35) {
+  new_test_value <- (test_value/(test_value + final_value))*(2*test_value + final_value)
+  new_final_value <- (2*test_value + final_value) - new_test_value
+  ((new_test_value * test + new_final_value * final) - (test_value * test) - (final_value * final))/test_value
+}
+
+
+# Spring 2021
 
 library(tidyverse)
 
@@ -97,3 +122,5 @@ f1 <- file.path(savedir, paste0(choices[1], ".csv"))
 f2 <- file.path(savedir, paste0(choices[2], ".csv"))
 all <- bind_rows(read_csv(f1), read_csv(f2))
 write_csv(all, file.path(savedir, "all.csv"))
+
+

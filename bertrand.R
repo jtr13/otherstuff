@@ -1,5 +1,5 @@
 # Bertrand's paradox
-# 
+#
 # Simulate the proportion of chords formed by two randomly selected points INSIDE a circle greater than the side of an equilateral triangle inscribed in the circle
 
 # Ex.

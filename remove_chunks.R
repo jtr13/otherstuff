@@ -1,5 +1,7 @@
 # Remove code from .Rmd -- useful for creating homework templates
 # To keep the chunk, put a space before it
+# Ex. a <- remove_chunks("PSet1/PSet1-solutions.qmd")
+# write(a, file = "PSet1/PSet1.qmd")
 remove_chunks <- function(filename) {
   rmd_file <- readLines(filename)
   chunk <- FALSE
@@ -14,3 +16,4 @@ remove_chunks <- function(filename) {
   newfile <- rmd_file[!newindex]
   gsub("^ \\`", "\\`", newfile)
 }
+
