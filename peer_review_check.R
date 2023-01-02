@@ -9,7 +9,8 @@ df <- read.csv("~/Downloads/peer.csv")
 df <- df |>
   filter(substr(Name, 1, 4) != "Give") |>
   filter(substr(Name, 1, 6) != "Remind") |>
-  mutate(column = ifelse(str_detect(Name, "Assessment|None"), "Assignee", "Name"))
+  filter(substr(Name, 1, 6) != "Delete") |>
+  mutate(column = ifelse(str_detect(Name, "Assessment|None|Finished"), "Assignee", "Name"))
 df <- df |> mutate(id = rep(1:(nrow(df)/2), each = 2)) |>
   pivot_wider(names_from = column, values_from = Name) |>
   mutate(Assignee = str_remove(Assignee, "Assessment not yet Completed")) |>
@@ -18,7 +19,7 @@ df <- df |> mutate(id = rep(1:(nrow(df)/2), each = 2)) |>
 
 # Get project groups: People, Final Project, Import, Download
 
-g <- read.csv("~/Downloads/Final Project1.csv") |>
+g <- read.csv("~/Downloads/Final Project.csv") |>
   select(name, group_name)
 
 g2 <- g |>
@@ -33,5 +34,5 @@ df$Group <- sapply(df$Name, find_partners, g2 = g2)
 
 df$Problem <- ifelse(str_detect(df$Group, df$Assignee), TRUE, FALSE)
 
-write.csv(df, "~/Downloads/peerreviews.csv", row.names = FALSE)
+write.csv(df, "~/Downloads/peerreviewsMW.csv", row.names = FALSE)
 
